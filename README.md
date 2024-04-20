@@ -45,7 +45,7 @@ Decrypted: Hello, World!
 The implementation includes a unit test block that tests the encryption and decryption functionality. To run the tests, compile and run the code:
 
 ```bash
-nim c -r rc4.nim
+nim c -r Nimrc4.nim
 ```
 
 If the tests pass, you should see the output "Encryption/Decryption successful!".

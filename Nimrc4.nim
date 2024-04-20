@@ -1,19 +1,23 @@
 import std/strutils
 
 proc rc4KeyInit(Key: string): array[0..255, int] =
-  var result: array[0..255, int]
+  var 
+    i, j, intChar: int = 0
+    result: array[0..255, int]
   for i in 0..255:
     result[i] = i
   for i in 0..255:
-    let intChar = ord(char(Key[i mod Key.len]))
-    var j = 0
+    intChar = ord(char(Key[i mod Key.len]))
     j = (j + result[i] + intChar) mod 256
     swap(result[i], result[j])
-
-proc rc4CryptDecrypt*(Key, Text: string, encrypt: bool): string =
+  result
+  
+  
+proc rc4CryptDecrypt*(Key, Text: string, encrypt: bool ): string =
   ## Encrypts or decrypts the given `Text` using the RC4 algorithm with the provided `Key`.
   ## If `encrypt` is true, the function performs encryption; otherwise, it performs decryption.
   ## Returns the encrypted/decrypted string.
+
   if Key.len == 0:
     raise newException(ValueError, "Key cannot be empty")
 
@@ -24,8 +28,8 @@ proc rc4CryptDecrypt*(Key, Text: string, encrypt: bool): string =
     strResult: string = ""
 
   arrKey = rc4KeyInit(Key)
-
-  if encrypt:
+ 
+  if encrypt: 
     for y in 0..pred(Text.len):
       i = (succ(i)) mod 256
       j = (j + arrKey[i]) mod 256
@@ -36,16 +40,16 @@ proc rc4CryptDecrypt*(Key, Text: string, encrypt: bool): string =
     if Text.len mod 2 != 0 or Text.len == 0:
       raise newException(ValueError, "Encrypted text must be a non-empty hexadecimal string with an even length")
 
-    y = 0
     while y < pred(Text.len):
       i = (succ(i)) mod 256
       j = (j + arrKey[i]) mod 256
       swap(arrKey[i], arrKey[j])
-      intChar = fromHex[int](Text[y] & Text[succ(y)]) xor arrKey[(arrKey[i] + arrKey[j]) mod 256]
-      strResult = strResult & intChar.char
+      intChar = fromHex[int](Text[y] & Text[succ(y)] ) xor arrKey[(arrKey[i] + arrKey[j]) mod 256]
+      strResult = strResult & (intChar).char
       inc(y, 2)
 
   result = strResult
+
 
 # Unit tests
 when isMainModule:
@@ -57,3 +61,10 @@ when isMainModule:
       decrypted = rc4CryptDecrypt(key, ciphertext, false)
     doAssert decrypted == plaintext, "Encryption/Decryption failed"
     echo "Encryption/Decryption successful!"
+    echo "Key: " & key
+    echo "String: " & plaintext
+    echo "RC4 Encrypted String: " & ciphertext
+    echo ""
+    echo "Decrypting: " & ciphertext
+    echo "Key: " & key
+    echo "Decrypted Plaion text: " & decrypted

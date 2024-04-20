@@ -29,7 +29,7 @@ Input[string]: Key to use for encrypting the plain text
 Input[string]: String to be encrypted
 Output[string]: Encrypted Hex string  
 ]#
-proc rc4Encrypt(Key, Text: string ): string =
+proc rc4Encrypt*(Key, Text: string ): string =
   var
     i, j, y: int = 0
     arrKey: array[0..255, int]
@@ -57,7 +57,7 @@ Input[string]: Key to use for decrypting the hex string
 Input[string]: Encrypted Hex string
 Output[string]: Decrypted Hex string to plain text
 ]#
-proc rc4Decrypt(Key, HexString: string): string =
+proc rc4Decrypt*(Key, HexString: string): string =
   var
     i, j, y: int = 0
     arrKey: array[0..255, int]
@@ -82,25 +82,27 @@ proc rc4Decrypt(Key, HexString: string): string =
   result = strResult
   
 
+
+when isMainModule:
 #[
 Testing Encryption / Decryption Examples  
 ]#
-var
- key, string, hexstring: string
+  var
+   key, string, hexstring: string
 
-key = "DrunkenAlcoholic"
-string = "DrunkenAlcoholic RC4 Encryption Tests"
-hexstring = rc4Encrypt(key, string)
+  key = "MySuperSecretKey"
+  string = "The quick brown fox jumps over the lazy dog!"
+  hexstring = rc4Encrypt(key, string)
 
-echo "Key: " & key
-echo "String: " & string
-echo "RC4 Encrypted String: " & hexstring
+  echo "Key: " & key
+  echo "String: " & string
+  echo "RC4 Encrypted String: " & hexstring
 
-echo ""
+  echo ""
 
-echo "Decrypting: " & hexstring
-echo "Key: " & key
-echo "Decrypted Plaion text: " & rc4Decrypt(key, hexstring)
+  echo "Decrypting: " & hexstring
+  echo "Key: " & key
+  echo "Decrypted Plaion text: " & rc4Decrypt(key, hexstring)
 
     
     

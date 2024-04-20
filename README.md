@@ -36,7 +36,7 @@ This code will output:
 
 ```bash
 Plaintext: Hello, World!
-Encrypted: 76638EF2A5F58619672564776F6E69F36B3F336524D7D361
+Encrypted: 48656C6C6F2C20576F726C6421
 Decrypted: Hello, World!
 ```
 
